@@ -72,7 +72,7 @@ const CALENDARIO = {
         tipo: "quiz",
         preguntas: [
           { pregunta: "¿Dónde fue nuestra primera cita?", opciones: ["En el cine", "En una cafetería", "En la playa"], correcta: "En una cafetería" },
-          { pregunta: "¿Qué pedí yo aquel día?", opciones: ["Un café con leche", "Un chocolate", "Un té"], correcta: 0 }
+          { pregunta: "¿Qué pedí yo aquel día?", opciones: ["Un café con leche", "Un chocolate", "Un té"], correcta: "Un café con leche" }
         ]
       },
       premio: {
@@ -200,9 +200,9 @@ const CALENDARIO = {
       reto: {
         tipo: "quiz",
         preguntas: [
-          { pregunta: "¿Cuál es mi comida favorita?", opciones: ["Pizza", "Sushi", "Tortilla"], correcta: 2 },
-          { pregunta: "¿Qué me da más miedo?", opciones: ["Las arañas", "Las alturas", "Quedarme sin batería"], correcta: 0 },
-          { pregunta: "¿Qué serie vimos en dos días?", opciones: ["Friends", "La casa de papel", "Stranger Things"], correcta: 2 }
+          { pregunta: "¿Cuál es mi comida favorita?", opciones: ["Pizza", "Sushi", "Tortilla"], correcta: "Tortilla" },
+          { pregunta: "¿Qué me da más miedo?", opciones: ["Las arañas", "Las alturas", "Quedarme sin batería"], correcta: "Las arañas" },
+          { pregunta: "¿Qué serie vimos en dos días?", opciones: ["Friends", "La casa de papel", "Stranger Things"], correcta: "Stranger Things" }
         ]
       },
       premio: {
@@ -326,7 +326,7 @@ const CALENDARIO = {
       reto: {
         tipo: "quiz",
         preguntas: [
-          { pregunta: "¿Qué es lo que más me gusta de ti?", opciones: ["Tu risa", "Tus abrazos", "Todo"], correcta: 2 }
+          { pregunta: "¿Qué es lo que más me gusta de ti?", opciones: ["Tu risa", "Tus abrazos", "Todo"], correcta: "Todo" }
         ]
       },
       premio: {
