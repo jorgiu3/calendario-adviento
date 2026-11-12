@@ -16,9 +16,17 @@ Se puede editar directamente en GitHub: abre `contenido.js`, pulsa el lápiz ✏
 
 ## Modo prueba
 
-Para ver y probar todas las casillas antes de diciembre, añade `?prueba=renos` al final de la dirección (la clave está en `claveModoPrueba`). Aparece una barra amarilla para borrar el progreso de prueba o salir. El modo prueba guarda su progreso aparte, así que no afecta al de ella.
+Para ver y probar todas las casillas antes de diciembre, añade `?prueba=TU_CLAVE` al final de la dirección (`TU_CLAVE` es lo que pongas en `claveModoPrueba` dentro de `contenido.js`). Aparece una barra amarilla para borrar el progreso de prueba o salir. El modo prueba guarda su progreso aparte, así que no afecta al de ella.
 
-Antes de enseñárselo, cambia la clave por otra que solo sepas tú, o déjala vacía (`claveModoPrueba: ""`) para desactivar el modo prueba del todo.
+## ✅ Antes de enseñárselo
+
+- [ ] Cambia `claveModoPrueba` por una clave que solo sepas tú, o déjala vacía (`""`) para desactivar el modo prueba.
+- [ ] Revisa los 24 días: pon tus textos, preguntas, respuestas y regalos (ahora hay contenido de ejemplo).
+- [ ] Cambia las fotos de ejemplo por las vuestras. Redúcelas a unos 1200 px de lado: las fotos del móvil de 4–8 MB hacen que el puzle y el memory vayan lentos.
+- [ ] Prueba todo con el modo prueba en tu móvil y pulsa «Borrar progreso» al terminar.
+- [ ] Comprueba que `anio` es el año correcto.
+
+Si después de editar `contenido.js` la web muestra «Hay un error en contenido.js», revisa las comas y comillas cerca de lo último que cambiaste. Si un reto está mal configurado, la casilla lo avisa y deja abrir el regalo igualmente.
 
 ## Publicar en GitHub Pages
 

@@ -77,6 +77,42 @@
     setTimeout(() => window.matchMedia("(pointer: fine)").matches && input.focus(), 350);
   }
 
+  // "correcta" puede ser el número de la opción (empezando en 0) o su texto
+  const esOpcionCorrecta = (p, idx) =>
+    typeof p.correcta === "number" ? idx === p.correcta : normalizar(p.opciones[idx]) === normalizar(p.correcta);
+
+  /* Comprueba que cada reto tenga lo necesario. Devuelve un texto con el fallo o null. */
+  function validarReto(reto) {
+    const r = reto || {};
+    const vacio = (v) => v == null || (Array.isArray(v) ? v.length === 0 || v.every((x) => !String(x).trim()) : !String(v).trim());
+    switch (r.tipo) {
+      case undefined: case "ninguno": case "final": return null;
+      case "quiz":
+        if (!Array.isArray(r.preguntas) || !r.preguntas.length) return "faltan las preguntas.";
+        for (const [i, q] of r.preguntas.entries()) {
+          if (!q || !Array.isArray(q.opciones) || q.opciones.length < 2) return `la pregunta ${i + 1} necesita al menos dos opciones.`;
+          if (!q.opciones.some((_, k) => esOpcionCorrecta(q, k))) return `en la pregunta ${i + 1}, "correcta" no coincide con ninguna opción.`;
+        }
+        return null;
+      case "adivinanza": return vacio(r.respuesta) ? "falta la respuesta." : null;
+      case "codigo": return vacio(r.codigo) ? "falta el código." : null;
+      case "puzle": return vacio(r.foto) ? "falta la foto." : null;
+      case "memoria": return Array.isArray(r.cartas) && r.cartas.length < 2 ? "hacen falta al menos dos cartas." : null;
+      case "sopa": {
+        const ps = (r.palabras || []).map(letrasMayus).filter(Boolean);
+        if (!ps.length) return "faltan las palabras.";
+        if (ps.some((p) => p.length > 15)) return "alguna palabra es demasiado larga (máximo 15 letras).";
+        return null;
+      }
+      case "rasca": return null;
+      case "cifrado": return vacio(r.mensaje) ? "falta el mensaje." : null;
+      case "copos": return null;
+      case "ahorcado": return letrasMayus(r.palabra) ? null : "falta la palabra.";
+      case "ordenar": return !Array.isArray(r.elementos) || r.elementos.length < 2 ? "hacen falta al menos dos elementos." : null;
+      default: return `el tipo "${r.tipo}" no existe. Mira la lista de tipos al principio del archivo.`;
+    }
+  }
+
   const Juegos = {};
 
   /* ---------- Quiz ---------- */
@@ -95,7 +131,7 @@
       p.opciones.forEach((op, idx) => {
         const b = el("button", { type: "button", text: op });
         b.addEventListener("click", () => {
-          if (idx === p.correcta) {
+          if (esOpcionCorrecta(p, idx)) {
             b.classList.add("bien");
             ops.querySelectorAll("button").forEach((x) => (x.disabled = true));
             estado.className = "mensaje-estado ok";
@@ -143,7 +179,7 @@
           resolve(src);
         }
       };
-      img.onerror = () => resolve(src);
+      img.onerror = () => resolve(null);
       img.src = src;
     });
   }
@@ -151,6 +187,11 @@
   Juegos.puzle = async (cont, reto, alGanar) => {
     const n = Math.max(2, Math.min(5, reto.piezas || 3));
     const src = await recortarCuadrado(reto.foto);
+    if (!src) {
+      cont.append(el("p", { class: "mensaje-estado error", text: `⚠️ No se encuentra la foto "${reto.foto}". Revisa el nombre en contenido.js y que esté en la carpeta fotos/.` }));
+      Juegos.ninguno(cont, reto, alGanar);
+      return;
+    }
     cont.append(el("img", { class: "ref-puzle", src, alt: "Referencia" }));
     const tablero = el("div", { class: "puzle" });
     tablero.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
@@ -545,7 +586,8 @@
   /* ---------- Final (día 24) ---------- */
   Juegos.final = (cont, reto, alGanar, ctx) => {
     const final = ctx.regaloFinal || {};
-    cont.append(el("h3", { text: "🧩 Tus pistas" }));
+    const conseguidas = ctx.pistas.filter((p) => p.conseguida).length;
+    cont.append(el("h3", { text: `🧩 Tienes ${conseguidas} de ${ctx.pistas.length} pistas` }));
     const ul = el("ul", { class: "pistas-final" });
     ctx.pistas.forEach((p) => ul.append(el("li", { class: p.conseguida ? "" : "falta", text: p.conseguida ? p.texto : `Día ${p.dia}: pista sin descubrir` })));
     cont.append(ul);
@@ -554,5 +596,6 @@
   };
 
   window.Juegos = Juegos;
+  window.validarReto = validarReto;
   window.JuegosUtil = { normalizar, esCorrecta, el, esImagen, barajar };
 })();

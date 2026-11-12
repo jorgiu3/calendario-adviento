@@ -10,7 +10,9 @@
    - Cuidado con las comas: cada bloque { ... } va separado por una coma.
 
    TIPOS DE RETO (campo "tipo"):
-     "quiz"        Preguntas con opciones sobre vosotros.
+     "quiz"        Preguntas con opciones sobre vosotros. En "correcta" pon el texto
+                   exacto de la opción buena, o su número empezando en 0
+                   (0 = primera opción, 1 = segunda…).
      "adivinanza"  Una pregunta o acertijo con respuesta escrita.
      "codigo"      Pista del mundo real: busca un código escondido en casa.
      "puzle"       Puzle de una foto (toca dos piezas para cambiarlas).
@@ -41,7 +43,8 @@ const CALENDARIO = {
   anio: 2026,
 
   // Modo prueba: abre la web con  ?prueba=TU_CLAVE  al final de la dirección
-  // (por ejemplo https://usuario.github.io/calendario/?prueba=renos) para ver todo abierto.
+  // (por ejemplo https://usuario.github.io/calendario-adviento/?prueba=renos) para ver todo abierto.
+  // ⚠️ Antes de enseñárselo, cámbiala por otra que solo sepas tú o déjala vacía: ""
   claveModoPrueba: "renos",
 
   titulo: "Nuestro Calendario de Adviento",
@@ -53,7 +56,7 @@ const CALENDARIO = {
 
   // Gran regalo final (día 24)
   regaloFinal: {
-    pregunta: "Has reunido todas las pistas. ¿Adónde nos vamos?",
+    pregunta: "Con todas tus pistas… ¿adónde nos vamos?",
     respuesta: ["roma", "a roma", "italia"],
     titulo: "¡Nos vamos a Roma! 🇮🇹",
     carta: "Feliz Navidad, mi amor.\nEn febrero nos perdemos por Roma: pasta, helados y tirar una moneda en la Fontana di Trevi para volver juntos.\nGracias por un año precioso.",
@@ -68,7 +71,7 @@ const CALENDARIO = {
       reto: {
         tipo: "quiz",
         preguntas: [
-          { pregunta: "¿Dónde fue nuestra primera cita?", opciones: ["En el cine", "En una cafetería", "En la playa"], correcta: 1 },
+          { pregunta: "¿Dónde fue nuestra primera cita?", opciones: ["En el cine", "En una cafetería", "En la playa"], correcta: "En una cafetería" },
           { pregunta: "¿Qué pedí yo aquel día?", opciones: ["Un café con leche", "Un chocolate", "Un té"], correcta: 0 }
         ]
       },

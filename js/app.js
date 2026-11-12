@@ -2,7 +2,15 @@
 (function () {
   "use strict";
 
-  const C = CALENDARIO; // definido en contenido.js
+  // Si contenido.js tiene un error (una coma o unas comillas), CALENDARIO no existe
+  const C = typeof CALENDARIO !== "undefined" ? CALENDARIO : null; // definido en contenido.js
+  if (!C || !Array.isArray(C.dias)) {
+    document.getElementById("escena").innerHTML =
+      '<div style="max-width:520px;margin:30px auto;padding:20px;border-radius:16px;background:#fffaf0;color:#3b2a1a;font-size:17px;line-height:1.4">' +
+      "<strong>⚠️ Hay un error en contenido.js.</strong><br>Revisa las comas y las comillas cerca de lo último que cambiaste. " +
+      "Cada bloque { ... } va separado por una coma y cada texto va entre comillas \"...\".</div>";
+    return;
+  }
   const { el, esImagen } = window.JuegosUtil;
   const $ = (s) => document.querySelector(s);
   const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -283,9 +291,15 @@
     const zona = el("div");
     contenido.append(zona);
     const reto = datos.reto || { tipo: "ninguno" };
-    const juego = window.Juegos[reto.tipo] || window.Juegos.ninguno;
+    const fallo = window.validarReto(reto);
     abrirModal();
-    juego(zona, reto, () => ganar(d), { pistas: listaPistas(), regaloFinal: C.regaloFinal });
+    if (fallo) {
+      // Un reto mal configurado no debe bloquear el regalo
+      zona.append(el("p", { class: "mensaje-estado error", text: `⚠️ Este reto está mal configurado en contenido.js (día ${d}): ${fallo}` }));
+      window.Juegos.ninguno(zona, reto, () => ganar(d));
+      return;
+    }
+    window.Juegos[reto.tipo](zona, reto, () => ganar(d), { pistas: listaPistas(), regaloFinal: C.regaloFinal });
   }
 
   function ganar(d) {
