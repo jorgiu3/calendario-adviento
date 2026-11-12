@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1736">
+  <title>Calendario de Adviento</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎄</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Dancing+Script:wght@500;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="nieve" aria-hidden="true"></canvas>
+
+  <div id="banner-prueba" class="banner-prueba" hidden>
+    🧪 <strong>Modo prueba</strong>: todas las casillas abiertas.
+    <button id="btn-reset" type="button">Borrar progreso</button>
+    <button id="btn-salir-prueba" type="button">Salir</button>
+  </div>
+
+  <header class="cabecera">
+    <h1 id="titulo">Calendario de Adviento</h1>
+    <p id="subtitulo" class="subtitulo"></p>
+    <div class="progreso" aria-label="Progreso">
+      <div class="progreso-barra"><div id="progreso-relleno" class="progreso-relleno"></div></div>
+      <span id="progreso-texto" class="progreso-texto">0 / 24</span>
+    </div>
+    <div class="acciones">
+      <button id="btn-album" class="btn-redondo" type="button" title="Álbum de recuerdos">📖 <span>Álbum</span></button>
+      <button id="btn-musica" class="btn-redondo" type="button" title="Música">🎵 <span>Música</span></button>
+    </div>
+  </header>
+
+  <main>
+    <div id="escena" class="escena" role="group" aria-label="Pueblo navideño con 24 casillas"></div>
+  </main>
+
+  <footer class="pie" id="pie"></footer>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-fondo" data-cerrar></div>
+    <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <button class="modal-cerrar" type="button" data-cerrar aria-label="Cerrar">✕</button>
+      <div id="modal-contenido"></div>
+    </div>
+  </div>
+
+  <div id="aviso" class="aviso" role="status" aria-live="polite"></div>
+  <canvas id="confeti" aria-hidden="true"></canvas>
+
+  <script src="contenido.js"></script>
+  <script src="js/juegos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
